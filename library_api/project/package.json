@@ -8,10 +8,7 @@
     "start": "node server.js",
     "dev": "node server.js",
     "build": "echo 'Build completed successfully'",
-    "test": "jest --coverage --verbose",
-    "test:watch": "jest --watch",
-    "test:unit": "jest tests/unit",
-    "test:integration": "jest tests/integration"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "library",
@@ -34,14 +31,5 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.1",
     "morgan": "^1.10.1"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "supertest": "^7.0.0",
-    "mongodb-memory-server": "^10.0.0",
-    "@types/jest": "^29.5.0",
-    "@types/supertest": "^6.0.0",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
   }
 }

@@ -41,8 +41,6 @@ npm run dev
 
 Le serveur démarre sur `http://localhost:3000`
 
-Accès au swagger sur : `http://localhost:3000/api-docs`
-
 ## Structure du projet
 
 ```
@@ -535,6 +533,4 @@ Le token sera automatiquement sauvegardé dans vos variables d'environnement.
 - **helmet** : Sécurité HTTP
 - **morgan** : Logs des requêtes HTTP
 
-## Licence
 
-ISC

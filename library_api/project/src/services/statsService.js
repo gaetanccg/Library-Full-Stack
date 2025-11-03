@@ -1,7 +1,6 @@
 const Loan = require('../models/Loan');
 const Book = require('../models/Book');
 const User = require('../models/User');
-const Author = require('../models/Author');
 
 const getTopBorrowedBooks = async (limit = 10, days = 30) => {
   const startDate = new Date();

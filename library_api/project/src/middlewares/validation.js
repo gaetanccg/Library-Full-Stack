@@ -47,33 +47,44 @@ const validateLogin = [
 ];
 
 const validateBook = [
-  body('isbn')
-    .trim()
-    .notEmpty().withMessage('L\'ISBN est requis'),
-  body('title')
-    .trim()
-    .notEmpty().withMessage('Le titre est requis'),
-  body('authors')
-    .isArray({ min: 1 }).withMessage('Au moins un auteur est requis')
-    .custom((authors) => {
-      return authors.every(id => /^[0-9a-fA-F]{24}$/.test(id));
-    }).withMessage('ID d\'auteur invalide'),
-  body('categories')
-    .optional()
-    .isArray().withMessage('Les catégories doivent être un tableau'),
-  body('totalCopies')
-    .optional()
-    .isInt({ min: 0 }).withMessage('Le nombre d\'exemplaires doit être positif'),
-  body('availableCopies')
-    .optional()
-    .isInt({ min: 0 }).withMessage('Le nombre d\'exemplaires disponibles doit être positif'),
-  body('pages')
-    .optional()
-    .isInt({ min: 1 }).withMessage('Le nombre de pages doit être au moins 1'),
-  body('summary')
-    .optional()
-    .isLength({ max: 2000 }).withMessage('Le résumé ne peut pas dépasser 2000 caractères'),
-  handleValidationErrors
+    body('isbn')
+        .trim()
+        .notEmpty().withMessage('L\'ISBN est requis'),
+    body('title')
+        .trim()
+        .notEmpty().withMessage('Le titre est requis'),
+    body('authors')
+        .isArray({ min: 1 }).withMessage('Au moins un auteur est requis')
+        .custom((authors) => {
+            return authors.every(author => {
+                // Si c'est un ID Mongo valide
+                if (/^[0-9a-fA-F]{24}$/.test(author)) return true;
+
+                // Si c'est une string non vide
+                if (typeof author === 'string' && author.trim().length > 0) return true;
+
+                // Si c'est un objet avec firstName / lastName
+                if (typeof author === 'object' && author.firstName && author.lastName) return true;
+
+                return false;
+            });
+        }).withMessage('ID ou nom d\'auteur invalide'),
+    body('categories')
+        .optional()
+        .isArray().withMessage('Les catégories doivent être un tableau'),
+    body('totalCopies')
+        .optional()
+        .isInt({ min: 0 }).withMessage('Le nombre d\'exemplaires doit être positif'),
+    body('availableCopies')
+        .optional()
+        .isInt({ min: 0 }).withMessage('Le nombre d\'exemplaires disponibles doit être positif'),
+    body('pages')
+        .optional()
+        .isInt({ min: 1 }).withMessage('Le nombre de pages doit être au moins 1'),
+    body('summary')
+        .optional()
+        .isLength({ max: 2000 }).withMessage('Le résumé ne peut pas dépasser 2000 caractères'),
+    handleValidationErrors
 ];
 
 const validateLoan = [

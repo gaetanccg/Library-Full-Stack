@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./config/swagger');
 const errorHandler = require('./middlewares/errorHandler');
 const { generalLimiter } = require('./middlewares/rateLimiter');
 
@@ -18,8 +16,9 @@ const app = express();
 app.use(helmet());
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  credentials: true
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
@@ -36,7 +35,6 @@ app.get('/', (req, res) => {
     success: true,
     message: 'API de Gestion de Bibliothèque',
     version: '1.0.0',
-    documentation: '/api-docs',
     endpoints: {
       auth: '/api/auth',
       users: '/api/users',
@@ -54,14 +52,6 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customSiteTitle: 'Library API Documentation',
-  customCss: '.swagger-ui .topbar { display: none }',
-  swaggerOptions: {
-    persistAuthorization: true
-  }
-}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
